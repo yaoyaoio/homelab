@@ -158,9 +158,11 @@ insecure = true
 directory = "/config"
 watch = true
 
+# 使用阿里云DNS服务做域名解析认证
 [certificatesResolvers.le.acme]
   email = "i@yaoyao.io"
   storage = "acme.json"
   [certificatesResolvers.le.acme.dnsChallenge]
     provider = "alidns"
     delayBeforeCheck = 0
+
