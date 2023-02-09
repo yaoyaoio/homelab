@@ -1,0 +1,24 @@
+version: '3.6'
+
+services:
+  flare:
+    image: soulteary/flare
+    restart: always
+    command: flare
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.traefik-flare-http.entrypoints=web, websecure"
+      - "traefik.http.routers.traefik-flare-http.rule=Host(`home.yaoyao.io`)"
+      - "traefik.http.routers.traefik-flare-http.tls=true"
+      - "traefik.http.routers.traefik-flare-http.tls.certresolver=le"
+      - "traefik.http.services.traefik-flare-backend.loadbalancer.server.port=5005"
+    expose:
+      - 5005
+    volumes:
+      - ./app:/app
+networks:
+  traefik:
+    external: true
