@@ -21,3 +21,15 @@ services:
       - 5005:5005
     volumes:
       - ./app:/app
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.traefik-flare-http.entrypoints=web"
+      - "traefik.http.services.traefik-flare-backend.loadbalancer.server.port=5005"
+    expose:
+      - 5005
+networks:
+  traefik:
+    external: true

@@ -21,3 +21,17 @@ services:
       - 5005:5005
     volumes:
       - ./app:/app
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.traefik-flare-http.entrypoints=web, websecure"
+      - "traefik.http.routers.traefik-flare-http.rule=Host(`home.yaoyao.io`)"
+      - "traefik.http.routers.traefik-flare-http.tls=true"
+      # 需要依赖traefik使用resolver提供证书申请服务
+      - "traefik.http.routers.traefik-flare-http.tls.certresolver=le"
+      - "traefik.http.services.traefik-flare-backend.loadbalancer.server.port=5005"
+networks:
+  traefik:
+    external: true
